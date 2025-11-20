@@ -10,7 +10,7 @@ namespace Locadora.Controller
         public void AdicionarCliente(Cliente cliente, Documento documento)
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
-            
+
             // Tipo de dado SqlTransaction
             using (var transaction = connection.BeginTransaction())
             {
@@ -30,7 +30,7 @@ namespace Locadora.Controller
                     documento.SetClienteID(clienteId);
                     var documentoController = new DocumentoController();
                     documentoController.AdicionarDocumento(documento, connection, transaction);
-                    
+
                     transaction.Commit();
                 }
                 catch (SqlException ex)
@@ -122,6 +122,14 @@ namespace Locadora.Controller
                                                         reader["Telefone"].ToString() : null
                                 );
                                 cliente.SetClienteID(Convert.ToInt32(reader["ClienteID"]));
+
+                                var documento = new Documento(
+                                    reader["TipoDocumento"].ToString(),
+                                    reader["Numero"].ToString(),
+                                    DateOnly.FromDateTime(reader.GetDateTime(6)),
+                                    DateOnly.FromDateTime(reader.GetDateTime(7))
+                                );
+                                cliente.SetDocumento(documento);
                                 return cliente;
                             }
                             return null;
@@ -171,6 +179,40 @@ namespace Locadora.Controller
                 }
                 catch (Exception ex)
                 {
+                    throw new Exception("Erro genérico ao atualizar telefone do cliente: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public void AtualizarDocumentoCliente(Documento documento, string email)
+        {
+            var clienteEncontrado = BuscarClientePorEmail(email) ??
+                throw new Exception("Cliente não pode ser encontrado para atualização!");
+
+            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            connection.Open();
+            using (var transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    documento.SetClienteID(clienteEncontrado.ClienteID);
+                    var documentoController = new DocumentoController();
+                    documentoController.AtualizarDocumento(documento, connection, transaction);
+
+                    transaction.Commit();
+                }
+                catch (SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro de SQL ao atualizar telefone do cliente: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
                     throw new Exception("Erro genérico ao atualizar telefone do cliente: " + ex.Message);
                 }
                 finally
