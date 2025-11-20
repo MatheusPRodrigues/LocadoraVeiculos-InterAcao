@@ -49,38 +49,43 @@ namespace Locadora.Controller
 
         public List<Cliente> ListarTodosClientes()
         {
-            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
-            try
+            using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
             {
-                connection.Open();
-                var command = new SqlCommand(Cliente.SELECTALLCLIENTES, connection);
-                var reader = command.ExecuteReader();
-
-                var listaClientes = new List<Cliente>();
-                while (reader.Read())
+                try
                 {
-                    var cliente = new Cliente(
-                        reader["Nome"].ToString(),
-                        reader["Email"].ToString(),
-                        reader["Telefone"] != DBNull.Value ?
-                                            reader["Telefone"].ToString() : null
-                    );
-                    cliente.SetClienteID(Convert.ToInt32(reader["ClienteID"]));
-                    listaClientes.Add(cliente);
+                    connection.Open();
+                    using (var command = new SqlCommand(Cliente.SELECTALLCLIENTES, connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            var listaClientes = new List<Cliente>();
+                            while (reader.Read())
+                            {
+                                var cliente = new Cliente(
+                                    reader["Nome"].ToString(),
+                                    reader["Email"].ToString(),
+                                    reader["Telefone"] != DBNull.Value ?
+                                                        reader["Telefone"].ToString() : null
+                                );
+                                cliente.SetClienteID(Convert.ToInt32(reader["ClienteID"]));
+                                listaClientes.Add(cliente);
+                            }
+                            return listaClientes;
+                        }
+                    }
                 }
-                return listaClientes;
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception("Erro de SQL Server ao listar clientes: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro de genérico ao listar cliente: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
+                catch (SqlException ex)
+                {
+                    throw new Exception("Erro de SQL Server ao listar clientes: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro de genérico ao listar cliente: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
 
