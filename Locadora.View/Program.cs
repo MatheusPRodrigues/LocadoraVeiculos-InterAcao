@@ -1,15 +1,16 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
 
-var cliente = new Cliente("Julia", "julia@uol.com");
-//var documento = new Documento(1, "RG", "123456789", new DateOnly(2020, 1, 1), new DateOnly(2030, 1, 1));
+var cliente = new Cliente("Rodrigo", "rodrigo@gmail.com");
+var documento = new Documento("RG", "4254515151", new DateOnly(2020, 1, 1), new DateOnly(2030, 1, 1));
 
 //Console.WriteLine(cliente);
 
 var clienteController = new ClienteController();
 //try
 //{
-//    clienteController.AdicionarCliente(cliente);
+//    clienteController.AdicionarCliente(cliente, documento);
+//    Console.WriteLine("Cliente adicionado com sucesso!");
 //}
 //catch (Exception ex)
 //{
@@ -34,9 +35,8 @@ catch (Exception ex)
 
 //try
 //{
-//    var clienteExcluido = clienteController.ExcluirCliente("roberta@uol.com");
+//    clienteController.ExcluirCliente("roberta@uol.com");
 //    Console.WriteLine("Cliente excluído com sucesso!");
-//    Console.WriteLine(clienteExcluido);
 //}
 //catch (Exception ex)
 //{

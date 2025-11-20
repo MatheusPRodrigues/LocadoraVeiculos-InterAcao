@@ -7,11 +7,10 @@ namespace Locadora.Controller
 {
     public class ClienteController
     {
-        public void AdicionarCliente(Cliente cliente)
+        public void AdicionarCliente(Cliente cliente, Documento documento)
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
-            connection.Open();
-
+            
             // Tipo de dado SqlTransaction
             using (var transaction = connection.BeginTransaction())
             {
@@ -28,6 +27,10 @@ namespace Locadora.Controller
                     cliente.SetClienteID(clienteId);
                     //cliente.SetClienteID(Convert.ToInt32(command.ExecuteScalar()));
 
+                    documento.SetClienteID(clienteId);
+                    var documentoController = new DocumentoController();
+                    documentoController.AdicionarDocumento(documento, connection, transaction);
+                    
                     transaction.Commit();
                 }
                 catch (SqlException ex)
@@ -67,7 +70,15 @@ namespace Locadora.Controller
                                     reader["Telefone"] != DBNull.Value ?
                                                         reader["Telefone"].ToString() : null
                                 );
-                                cliente.SetClienteID(Convert.ToInt32(reader["ClienteID"]));
+
+                                var documento = new Documento(
+                                    reader["TipoDocumento"].ToString(),
+                                    reader["Numero"].ToString(),
+                                    DateOnly.FromDateTime(reader.GetDateTime(5)),
+                                    DateOnly.FromDateTime(reader.GetDateTime(6))
+                                );
+                                cliente.SetDocumento(documento);
+
                                 listaClientes.Add(cliente);
                             }
                             return listaClientes;
@@ -169,7 +180,7 @@ namespace Locadora.Controller
             }
         }
 
-        public Cliente ExcluirCliente(string email)
+        public void ExcluirCliente(string email)
         {
             var clienteEncontrado = BuscarClientePorEmail(email);
             if (clienteEncontrado is null)
@@ -186,7 +197,6 @@ namespace Locadora.Controller
                     {
                         command.Parameters.AddWithValue("@IdCliente", clienteEncontrado.ClienteID);
                         command.ExecuteNonQuery();
-                        return clienteEncontrado;
                     }
                 }
                 catch (SqlException ex)
