@@ -126,7 +126,7 @@ namespace Locadora.Controller
             var clienteEncontrado = BuscarClientePorEmail(email);
             if (clienteEncontrado is null)
             {
-                throw new Exception("Cliente não pode ser encontrado!");
+                throw new Exception("Cliente não pode ser encontrado para atualização!");
             }
 
             clienteEncontrado.SetTelefone(telefone);
@@ -151,6 +151,41 @@ namespace Locadora.Controller
             finally
             {
                 connection.Close();
+            }
+        }
+
+        public Cliente ExcluirCliente(string email)
+        {
+            var clienteEncontrado = BuscarClientePorEmail(email);
+            if (clienteEncontrado is null)
+            {
+                throw new Exception("Cliente não pode ser encontrado para exclusão!");
+            }
+
+            using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
+            {
+                connection.Open();
+                try
+                {
+                    using (var command = new SqlCommand(Cliente.DELETECLIENTE, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdCliente", clienteEncontrado.ClienteID);
+                        command.ExecuteNonQuery();
+                        return clienteEncontrado;
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Erro de SQL ao tentar deletar cliente: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro genérico ao tentar deletar cliente: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
     }

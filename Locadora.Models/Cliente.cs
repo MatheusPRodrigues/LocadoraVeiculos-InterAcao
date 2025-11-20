@@ -11,6 +11,8 @@
 
         public readonly static string UPDATEFONECLIENTE = "UPDATE tblClientes SET Telefone = @Telefone WHERE ClienteID = @IdCliente";
 
+        public readonly static string DELETECLIENTE = "DELETE FROM tblClientes WHERE ClienteID = @IdCliente";
+
         public int ClienteID { get; private set; }
         public string Nome { get; private set; }
         public string Email { get; private set; }
