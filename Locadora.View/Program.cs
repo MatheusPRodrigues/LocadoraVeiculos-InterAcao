@@ -29,16 +29,16 @@ var clienteController = new ClienteController();
 //    Console.WriteLine(ex.Message);
 //}
 
-//clienteController.AtualizarTelefoneCliente("997431451", "a@a.com");
-//Console.WriteLine(clienteController.BuscarClientePorEmail("a@a.com"));
+clienteController.AtualizarTelefoneCliente("169978403821", "julia@uol.com");
+Console.WriteLine(clienteController.BuscarClientePorEmail("julia@uol.com"));
 
-try
-{
-    var clienteExcluido = clienteController.ExcluirCliente("roberta@uol.com");
-    Console.WriteLine("Cliente excluído com sucesso!");
-    Console.WriteLine(clienteExcluido);
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+//try
+//{
+//    var clienteExcluido = clienteController.ExcluirCliente("roberta@uol.com");
+//    Console.WriteLine("Cliente excluído com sucesso!");
+//    Console.WriteLine(clienteExcluido);
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}

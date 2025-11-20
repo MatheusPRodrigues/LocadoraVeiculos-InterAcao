@@ -86,38 +86,44 @@ namespace Locadora.Controller
 
         public Cliente BuscarClientePorEmail(string email)
         {
-            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
-            connection.Open();
-            try
+            using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
             {
-                var command = new SqlCommand(Cliente.SELECTCLIENTEPOREMAIL, connection);
-                command.Parameters.AddWithValue("@Email", email);
-
-                var reader = command.ExecuteReader();
-                if (reader.Read())
+                connection.Open();
+                try
                 {
-                    var cliente = new Cliente(
-                        reader["Nome"].ToString(),
-                        reader["Email"].ToString(),
-                        reader["Telefone"] != DBNull.Value ?
-                                            reader["Telefone"].ToString() : null
-                    );
-                    cliente.SetClienteID(Convert.ToInt32(reader["ClienteID"]));
-                    return cliente;
+                    using (var command = new SqlCommand(Cliente.SELECTCLIENTEPOREMAIL, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                var cliente = new Cliente(
+                                    reader["Nome"].ToString(),
+                                    reader["Email"].ToString(),
+                                    reader["Telefone"] != DBNull.Value ?
+                                                        reader["Telefone"].ToString() : null
+                                );
+                                cliente.SetClienteID(Convert.ToInt32(reader["ClienteID"]));
+                                return cliente;
+                            }
+                            return null;
+                        }
+                    }
                 }
-                return null;
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception("Erro de SQL ao buscar cliente por email: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro genérico ao buscar cliente por email: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
+                catch (SqlException ex)
+                {
+                    throw new Exception("Erro de SQL ao buscar cliente por email: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro genérico ao buscar cliente por email: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
 
@@ -131,26 +137,30 @@ namespace Locadora.Controller
 
             clienteEncontrado.SetTelefone(telefone);
 
-            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
-            connection.Open();
-            try
+            using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
             {
-                var command = new SqlCommand(Cliente.UPDATEFONECLIENTE, connection);
-                command.Parameters.AddWithValue("@Telefone", clienteEncontrado.Telefone);
-                command.Parameters.AddWithValue("@IdCliente", clienteEncontrado.ClienteID);
-                command.ExecuteNonQuery();
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception("Erro de SQL ao atualizar telefone do cliente: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro genérico ao atualizar telefone do cliente: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
+                connection.Open();
+                try
+                {
+                    using (var command = new SqlCommand(Cliente.UPDATEFONECLIENTE, connection))
+                    {
+                        command.Parameters.AddWithValue("@Telefone", clienteEncontrado.Telefone);
+                        command.Parameters.AddWithValue("@IdCliente", clienteEncontrado.ClienteID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Erro de SQL ao atualizar telefone do cliente: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro genérico ao atualizar telefone do cliente: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
 
