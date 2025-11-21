@@ -1,5 +1,7 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
+using Locadora.Models.Enums;
+using System.Net.Http.Headers;
 
 #region "Cliente e Documentos"
 var cliente = new Cliente("Rodrigo", "rodrigo@gmail.com");
@@ -61,7 +63,7 @@ var documento = new Documento("RG", "4254515151", new DateOnly(2020, 1, 1), new 
 
 var categoriaController = new CategoriaController();
 
-var categoria = new Categoria("Esportivo", null, 499.90m);
+var categoria = new Categoria("Esportivo", 499.90m);
 
 //try
 //{
@@ -119,5 +121,62 @@ var categoria = new Categoria("Esportivo", null, 499.90m);
 //{
 //    Console.WriteLine(ex.Message);
 //}
+
+var veiculoController = new VeiculoController();
+
+//try
+//{
+//    var veiculo = new Veiculo(1, "XYZ-9876", "Chevrolet", "S10", 2025, EStatusVeiculo.Disponivel.ToString());
+//    veiculoController.AdicionarVeiculo(veiculo);
+//    Console.WriteLine("Veículo adicionado com sucesso!");
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+
+//try
+//{
+//    var veiculos = veiculoController.ListarTodosVeiculos();
+//    foreach (var v in veiculos)
+//    {
+//        Console.WriteLine(v);
+//    }
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+
+//try
+//{
+//    var veiculo = veiculoController.BuscarVeiculoPlaca("XYZ-9876");
+//    Console.WriteLine(veiculo);
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex);
+//}
+
+//try
+//{
+//    var veiculo = veiculoController.BuscarVeiculoPlaca("XYZ-9876");
+//    veiculoController.DeletarVeiculo(veiculo.VeiculoID);
+//    Console.WriteLine("Veículo excluído com sucesso!");
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex);
+//}
+
+try
+{
+    veiculoController.AtualizarStatusVeiculo(EStatusVeiculo.Manutencao.ToString(), "MKO7890");
+    Console.WriteLine("Veículo alterado com sucesso!");
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
 
 #endregion

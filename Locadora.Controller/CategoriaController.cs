@@ -1,10 +1,5 @@
 ﻿using Locadora.Models;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utils.Databases;
 
 namespace Locadora.Controller
@@ -65,9 +60,9 @@ namespace Locadora.Controller
                             {
                                 var categoria = new Categoria(
                                     reader["Nome"].ToString(),
+                                    decimal.Parse(reader["Diaria"].ToString()),
                                     reader["Descricao"] != DBNull.Value ?
-                                                            reader["Descricao"].ToString() : null,
-                                    decimal.Parse(reader["Diaria"].ToString())
+                                                            reader["Descricao"].ToString() : null
                                 );
                                 categorias.Add(categoria);
                             }
@@ -107,9 +102,9 @@ namespace Locadora.Controller
                             {
                                 var categoria = new Categoria(
                                     reader["Nome"].ToString(),
+                                    decimal.Parse(reader["Diaria"].ToString()),
                                     reader["Descricao"] != DBNull.Value ?
-                                                            reader["Descricao"].ToString() : null,
-                                    decimal.Parse(reader["Diaria"].ToString())
+                                                            reader["Descricao"].ToString() : null
                                 );
                                 categoria.SetCategoriaID(Convert.ToInt32(reader["CategoriaID"]));
                                 return categoria;
@@ -125,6 +120,43 @@ namespace Locadora.Controller
                 catch (Exception ex)
                 {
                     throw new Exception("Erro do tipo genérico ao tentar buscar categoria: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public string BuscarNomeCategoriaPorId(int id)
+        {
+            using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
+            {
+                connection.Open();
+                try
+                {
+                    using (var command = new SqlCommand(Categoria.SELECTNOMECATEGORIAPORID, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdCategoria", id);
+                        var reader = command.ExecuteReader();
+                        using (reader)
+                        {
+                            var nomeCategoria = String.Empty;
+                            if (reader.Read())
+                            {
+                                nomeCategoria = reader["Nome"].ToString();
+                            }
+                            return nomeCategoria;
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Erro do tipo SQL ao tentar buscar nome categoria: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro do tipo genérico ao tentar buscar nome categoria: " + ex.Message);
                 }
                 finally
                 {
