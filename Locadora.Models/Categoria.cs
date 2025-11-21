@@ -8,9 +8,42 @@ namespace Locadora.Models
 {
     public class Categoria
     {
+        public static readonly string INSERTCATEGORIA = @"INSERT INTO tblCategorias (Nome, Descricao, Diaria) VALUES
+                                                        (@Nome, @Descricao, @Diaria)";
+
+        public static readonly string SELECTALLCATEGORIA = @"SELECT * FROM tblCategorias";
+
+        public static readonly string SELECTCATEGORIAPORNOME = @"SELECT * FROM tblCategorias WHERE Nome = @Nome";
+
+        public static readonly string UPDATECATEGORIA = @"UPDATE tblCategorias SET
+                                                            Descricao = @Descricao,
+                                                            Diaria = @Diaria
+                                                        WHERE CategoriaID = @IdCategoria";
+
+        public static readonly string DELETECATEGORIA = @"DELETE FROM tblCategorias WHERE CategoriaID = @IdCategoria";
+
         public int CategoriaID { get; private set; }
         public string Nome { get; private set; }
-        public string Descricao { get; private set; }
+        public string? Descricao { get; private set; } = String.Empty;
         public decimal Diaria { get; private set; }
+
+        public Categoria(string nome, string? descricao, decimal diaria)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Diaria = diaria;
+        }
+
+        public void SetCategoriaID(int categoriaId)
+        {
+            CategoriaID = categoriaId;
+        }
+
+        public override string? ToString()
+        {
+            return $"Categoria: {Nome}\n" +
+                $"Descrição: {(String.IsNullOrEmpty(Descricao) ? "Não possui descrição" : Descricao)}\n" +
+                $"Valor Diária: {Diaria:C}\n";
+        }
     }
 }
