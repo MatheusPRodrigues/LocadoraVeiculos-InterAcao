@@ -6,27 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.Clientes
+namespace Locadora.View.VeiculosCategorias.Categorias
 {
-    public class ListarClientes
+    public class ListarCategorias
     {
-        public void ListarTodosClientes(ClienteController clienteController)
+        public void ListarTodasCategorias(CategoriaController categoriaController)
         {
             try
             {
                 Console.Clear();
-                var clienteLista = clienteController.ListarTodosClientes();
-                if (clienteLista.Count > 0)
+                var categorias = categoriaController.ListarTodasCategorias();
+                if (categorias.Count > 0)
                 {
-                    Console.WriteLine("======= LISTA DE CLIENTE =======");
-                    foreach (var c in clienteLista)
+                    Console.WriteLine("======= LISTA DE CATEGORIAS =======");
+                    foreach (var c in categorias)
                     {
                         Console.WriteLine(c);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Não há clientes registrados no sistema!");
+                    Console.WriteLine("Não há categorias registradas no sistema!");
                 }
             }
             catch (Exception ex)

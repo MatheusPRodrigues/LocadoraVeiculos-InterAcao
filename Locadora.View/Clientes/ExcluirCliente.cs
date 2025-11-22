@@ -29,11 +29,14 @@ namespace Locadora.View.Clientes
                     clienteController.ExcluirCliente(emailCliente);
                     Console.WriteLine("Cliente excluído com sucesso!");
                 }
-                Helpers.PressionerEnterParaContinuar();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Helpers.PressionerEnterParaContinuar();
             }
         }
     }

@@ -33,11 +33,14 @@ namespace Locadora.View.Clientes
                     Console.WriteLine("Telefone do cliente atualizado com sucesso!");
                     Console.WriteLine(clienteController.BuscarClientePorEmail(emailCliente));
                 }
-                Helpers.PressionerEnterParaContinuar();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Helpers.PressionerEnterParaContinuar();
             }
         }
     }
