@@ -169,14 +169,19 @@ var veiculoController = new VeiculoController();
 //    Console.WriteLine(ex);
 //}
 
-try
-{
-    veiculoController.AtualizarStatusVeiculo(EStatusVeiculo.Manutencao.ToString(), "MKO7890");
-    Console.WriteLine("Veículo alterado com sucesso!");
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+//try
+//{
+//    veiculoController.AtualizarStatusVeiculo(EStatusVeiculo.Manutencao.ToString(), "MKO7890");
+//    Console.WriteLine("Veículo alterado com sucesso!");
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+
+#endregion
+
+#region "Funcionarios"
+
 
 #endregion
