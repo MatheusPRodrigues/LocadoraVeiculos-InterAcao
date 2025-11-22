@@ -10,6 +10,7 @@ namespace Locadora.Controller
         public void AdicionarCliente(Cliente cliente, Documento documento)
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            connection.Open(); 
 
             // Tipo de dado SqlTransaction
             using (var transaction = connection.BeginTransaction())
