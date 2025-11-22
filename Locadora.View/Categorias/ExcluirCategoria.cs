@@ -1,5 +1,6 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
+using Locadora.View.Categorias;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.VeiculosCategorias.Categorias
+namespace Locadora.View.Categorias
 {
     public class ExcluirCategoria
     {

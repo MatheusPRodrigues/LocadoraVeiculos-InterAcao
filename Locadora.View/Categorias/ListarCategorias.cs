@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 
-namespace Locadora.View.VeiculosCategorias.Categorias
+namespace Locadora.View.Categorias
 {
     public class ListarCategorias
     {
@@ -16,7 +16,7 @@ namespace Locadora.View.VeiculosCategorias.Categorias
             {
                 Console.Clear();
                 var categorias = categoriaController.ListarTodasCategorias();
-                if (categorias.Count > 0)
+                if (categorias.Count() > 0)
                 {
                     Console.WriteLine("======= LISTA DE CATEGORIAS =======");
                     foreach (var c in categorias)

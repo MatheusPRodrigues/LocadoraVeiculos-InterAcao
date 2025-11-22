@@ -1,7 +1,8 @@
 ﻿using Locadora.Controller;
 using Locadora.View.Clientes;
+using Locadora.View.Categorias;
 
-namespace Locadora.View.VeiculosCategorias.Categorias
+namespace Locadora.View.Categorias
 {
     public class CategoriasMenu
     {
