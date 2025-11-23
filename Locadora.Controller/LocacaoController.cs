@@ -13,7 +13,7 @@ namespace Locadora.Controller
 {
     public class LocacaoController : ILocacaoController
     {
-        public void AdicionarLocacao(Locacao locacao)
+        public void AdicionarLocacao(Locacao locacao, LocacaoFuncionarios locacaoFuncionarios)
         {
             using var connection = new SqlConnection(ConnectionDB.GetConnectionString());
             {
@@ -37,6 +37,10 @@ namespace Locadora.Controller
                         command.Parameters.AddWithValue("@Status", locacao.Status.ToString());
 
                         command.ExecuteNonQuery();
+
+                        var locacaoFuncionariosController = new LocacaoFuncionariosController();
+                        locacaoFuncionariosController.AdicionarLocacaoFuncionarios(locacaoFuncionarios, connection, transaction);
+
                         transaction.Commit();
                     }
                     catch (SqlException ex)
@@ -57,7 +61,7 @@ namespace Locadora.Controller
             }
         }
 
-        public void AtualizarLocacao(string locacaoId, DateTime dataDevolucaoReal, EStatusLocacao status)
+        public void AtualizarLocacao(string locacaoId, DateTime dataDevolucaoReal, EStatusLocacao status, LocacaoFuncionarios locacaoFuncionarios)
         {
             var locacao = BuscarLocacaoId(locacaoId);
             var dataDevolucao = dataDevolucaoReal.Day - locacao.DataDevolucaoPrevista.Value.Day;
@@ -82,6 +86,10 @@ namespace Locadora.Controller
                         command.Parameters.AddWithValue("@Multa", locacao.Multa);
 
                         command.ExecuteNonQuery();
+
+                        var locacaoFuncionariosController = new LocacaoFuncionariosController();
+                        locacaoFuncionariosController.AdicionarLocacaoFuncionarios(locacaoFuncionarios, connection, transaction);
+
                         transaction.Commit();
                     }
                     catch (SqlException ex)
@@ -142,7 +150,7 @@ namespace Locadora.Controller
             return locacao ?? throw new Exception("Nao foi possivel localizar a locacao!");
         }
 
-        public void CancelarLocacao(string locacaoId)
+        public void CancelarLocacao(string locacaoId, LocacaoFuncionarios locacaoFuncionarios)
         {
             var locacao = this.BuscarLocacaoId(locacaoId) ?? throw new Exception("Locação não foi encontrada");
 
@@ -165,6 +173,10 @@ namespace Locadora.Controller
                         command.Parameters.AddWithValue("@Status", EStatusLocacao.Cancelada.ToString());
 
                         command.ExecuteNonQuery();
+
+                        var locacaoFuncionariosController = new LocacaoFuncionariosController();
+                        locacaoFuncionariosController.AdicionarLocacaoFuncionarios(locacaoFuncionarios, connection, transaction);
+
                         transaction.Commit();
                     }
                     catch (SqlException ex)
