@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Locadora.Models;
+using Locadora.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,14 @@ namespace Locadora.Controller.Interfaces
 {
     public interface ILocacaoController
     {
+        public void AdicionarLocacao(Locacao locacao);
 
+        public void AtualizarLocacao(string locacaoId, DateTime dataDevolucaoReal, EStatusLocacao status);
+
+        public Locacao BuscarLocacaoId(string locacaoId);
+
+        public List<Locacao> ListarLocacao();
+
+        public void CancelarLocacao(string locacaoId);
     }
 }

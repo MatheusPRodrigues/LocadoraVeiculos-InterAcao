@@ -11,7 +11,7 @@ using Utils;
 
 namespace Locadora.View.Categorias
 {
-    public class AtualizarCategoia
+    public class AtualizarCategoria
     {
         public void AtualizarUmaCategoria(CategoriaController categoriaController)
         {

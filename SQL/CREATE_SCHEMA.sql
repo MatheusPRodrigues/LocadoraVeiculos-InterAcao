@@ -59,7 +59,7 @@ CREATE TABLE tblFuncionarios (
 
 -- 6. Tabela tblLocacoes (Relacionamento 1:N com tblClientes e tblVeiculos, e N:M com tblFuncionarios)
 CREATE TABLE tblLocacoes (
-    LocacaoID INT PRIMARY KEY IDENTITY(1,1),
+    LocacaoID CHAR(36) PRIMARY KEY,
     ClienteID INT NOT NULL,
     VeiculoID INT NOT NULL,
     DataLocacao DATETIME NOT NULL DEFAULT GETDATE(),
@@ -76,7 +76,7 @@ CREATE TABLE tblLocacoes (
 -- 7. Tabela tblLocacaoFuncionarios (Tabela de Junção para o relacionamento N:M entre tblLocacoes e tblFuncionarios)
 CREATE TABLE tblLocacaoFuncionarios (
     LocacaoFuncionarioID INT PRIMARY KEY IDENTITY(1,1),
-    LocacaoID INT NOT NULL,
+    LocacaoID CHAR(36) NOT NULL,
     FuncionarioID INT NOT NULL,
     CONSTRAINT FK_LocFunc_Locacoes FOREIGN KEY (LocacaoID) REFERENCES tblLocacoes(LocacaoID) ON DELETE CASCADE,
     CONSTRAINT FK_LocFunc_Funcionarios FOREIGN KEY (FuncionarioID) REFERENCES tblFuncionarios(FuncionarioID),
@@ -116,26 +116,26 @@ INSERT INTO tblFuncionarios (Nome, CPF, Email, Salario) VALUES
 
 -- Locações (para teste, sem funcionários associados ainda)
 -- Locação 1: João aluga Mobi
-INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
-(1, 1, GETDATE(), DATEADD(day, 5, GETDATE()), 80.00, 'Ativa');
+INSERT INTO tblLocacoes (LocacaoID, ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
+('13cad6e3-d6b0-4199-bffb-964a8571e02d', 1, 1, GETDATE(), DATEADD(day, 5, GETDATE()), 80.00, 'Ativa');
 UPDATE tblVeiculos SET StatusVeiculo = 'Alugado' WHERE VeiculoID = 1;
 
 -- Locação 2: Maria aluga Onix Plus
-INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
-(2, 3, GETDATE(), DATEADD(day, 7, GETDATE()), 120.00, 'Ativa');
+INSERT INTO tblLocacoes (LocacaoID, ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, ValorDiaria, Status) VALUES
+('bac6ea70-2ad3-4cbf-ba40-dfaef816faaa', 2, 3, GETDATE(), DATEADD(day, 7, GETDATE()), 120.00, 'Ativa');
 UPDATE tblVeiculos SET StatusVeiculo = 'Alugado' WHERE VeiculoID = 3;
 
 -- Locação 3: Carlos aluga Renegade (já finalizada)
-INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria, ValorTotal, Status) VALUES
-(3, 5, DATEADD(day, -10, GETDATE()), DATEADD(day, -5, GETDATE()), DATEADD(day, -5, GETDATE()), 180.00, 900.00, 'Finalizada');
+INSERT INTO tblLocacoes (LocacaoID, ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria, ValorTotal, Status) VALUES
+('0ea5ddc4-3721-48cc-a11e-cd7a353f64bb', 3, 5, DATEADD(day, -10, GETDATE()), DATEADD(day, -5, GETDATE()), DATEADD(day, -5, GETDATE()), 180.00, 900.00, 'Finalizada');
 -- Veículo 5 deve estar disponível novamente
 
 -- LocaçãoFuncionarios (N:M)
 -- Ana e Pedro envolvidos na Locação 1
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
-(1, 1),
-(1, 2);
+('13cad6e3-d6b0-4199-bffb-964a8571e02d', 1),
+('13cad6e3-d6b0-4199-bffb-964a8571e02d', 2);
 
 -- Pedro envolvido na Locação 2
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
-(2, 2);
+('bac6ea70-2ad3-4cbf-ba40-dfaef816faaa', 2);

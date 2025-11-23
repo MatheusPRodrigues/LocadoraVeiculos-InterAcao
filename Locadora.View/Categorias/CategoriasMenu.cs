@@ -40,7 +40,7 @@ namespace Locadora.View.Categorias
                         listarCategorias.ListarTodasCategorias(categoriaController);
                         break;
                     case "3":
-                        var attCategoria = new AtualizarCategoia();
+                        var attCategoria = new AtualizarCategoria();
                         attCategoria.AtualizarUmaCategoria(categoriaController);
                         break;
                     case "4":
