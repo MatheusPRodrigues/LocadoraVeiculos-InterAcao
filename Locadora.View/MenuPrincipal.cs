@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Utils;
 using Locadora.View.Veiculos;
+using Locadora.View.Funcionarios;
+using Locadora.View.Locacoes;
 
 namespace Locadora.View
 {
@@ -81,8 +83,12 @@ namespace Locadora.View
                         AcessarMenuDeVeiculosCategorias();
                         break;
                     case "3":
+                        var menuFuncionario = new FuncionarioMenu();
+                        menuFuncionario.MenuDeFuncionarios();
                         break;
                     case "4":
+                        var menuLocacao = new LocacaoMenu();
+                        menuLocacao.MenuLocacoes();
                         break;
                     case "0":
                         repetirMenu = false;

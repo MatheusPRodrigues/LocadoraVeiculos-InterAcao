@@ -26,7 +26,7 @@ namespace Locadora.Controller
                             command.Parameters.AddWithValue("@Nome", funcionario.Nome);
                             command.Parameters.AddWithValue("@CPF", funcionario.CPF);
                             command.Parameters.AddWithValue("@Email", funcionario.Email);
-                            command.Parameters.AddWithValue("@Salario", funcionario.Salario == 0 ? null : funcionario.Salario);
+                            command.Parameters.AddWithValue("@Salario", funcionario.Salario == 0 ? DBNull.Value : funcionario.Salario);
 
                             command.ExecuteNonQuery();
                             transaction.Commit();
@@ -64,7 +64,7 @@ namespace Locadora.Controller
                     {
                         using (var command = new SqlCommand(Funcionario.UPDATEFUNCIONARIOPORCPF, connection, transaction))
                         {
-                            command.Parameters.AddWithValue("@Salario", salario);
+                            command.Parameters.AddWithValue("@Salario", salario == 0 ? DBNull.Value : salario);
                             command.Parameters.AddWithValue("@idFuncionario", funcionario.FuncionarioID);
 
                             command.ExecuteNonQuery();

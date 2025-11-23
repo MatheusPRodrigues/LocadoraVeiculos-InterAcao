@@ -55,7 +55,7 @@ namespace Locadora.Models
 
         public override string? ToString()
         {
-            return $"Nome: {Nome}\nCPF: {CPF}\nEmail: {Email}\nSalário: {Salario:c}";
+            return $"Nome: {Nome}\nCPF: {CPF}\nEmail: {Email}\nSalário: {Salario:c}\n";
         }
     }
 }

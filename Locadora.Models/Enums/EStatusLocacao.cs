@@ -9,7 +9,7 @@ namespace Locadora.Models.Enums
     public enum EStatusLocacao
     {
         Ativa,
-        Concluida,
+        Finalizada,
         Cancelada
     }
 }
