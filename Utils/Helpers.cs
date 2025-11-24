@@ -14,5 +14,20 @@ namespace Utils
             Console.ReadLine();
             Console.Clear();
         }
+
+        public static decimal LerDecimal(string mensagem)
+        {
+            decimal valor;
+            while (true)
+            {
+                Console.Write(mensagem);
+                var input = Console.ReadLine();
+                if (decimal.TryParse(input, out valor) && valor >= 0)
+                {
+                    return valor;
+                }
+                Console.WriteLine("Valor inválido, tente novamente.");
+            }
+        }
     }
 }
