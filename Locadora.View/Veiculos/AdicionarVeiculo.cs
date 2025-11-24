@@ -34,8 +34,7 @@ namespace Locadora.View.Veiculos
 
                     Console.Clear();
                     Console.WriteLine("======= DADOS DO VEÍCULO =======");
-                    Console.Write("Digite a placa do veículo: ");
-                    var placa = Console.ReadLine();
+                    var placa = SolicitarPlaca();
 
                     Console.Write("\nDigite a marca do veículo: ");
                     var marca = Console.ReadLine();
@@ -43,8 +42,7 @@ namespace Locadora.View.Veiculos
                     Console.Write("\nDigite o modelo do veículo: ");
                     var modelo = Console.ReadLine();
 
-                    Console.WriteLine("\nDigite o ano do veículo: ");
-                    var ano = Convert.ToInt32(Console.ReadLine());
+                    var ano = Helpers.LerInteiro("Digite o ano do veículo: ");
 
                     var status = EStatusVeiculo.Disponivel.ToString();
 
@@ -69,6 +67,26 @@ namespace Locadora.View.Veiculos
             {
                 Helpers.PressionerEnterParaContinuar();
             }
+        }
+
+        private string SolicitarPlaca()
+        {
+            string placa;
+            string regexAntigo = @"^[A-Z]{3}[0-9]{4}$";
+            string regexMercosul = @"^[A-Z]{3}[0-9][A-Z][0-9]{2}$";
+
+            do
+            {
+                Console.Write("Digite a placa do veículo (ex: ABC1234 ou ABC1D23): ");
+                placa = Console.ReadLine()?.ToUpper().Replace("-", "").Trim();
+
+                if (System.Text.RegularExpressions.Regex.IsMatch(placa, regexAntigo) ||
+                    System.Text.RegularExpressions.Regex.IsMatch(placa, regexMercosul))
+                {
+                    return placa;
+                }
+                Console.WriteLine("Placa inválida! Tente novamente.");
+            } while (true);
         }
     }
 }

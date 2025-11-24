@@ -17,7 +17,8 @@ namespace Locadora.View.Locacoes
         public void FormAddLocacao(LocacaoController locacaoController,
             ClienteController clienteController,
             VeiculoController veiculoController,
-            FuncionarioController funcionarioController
+            FuncionarioController funcionarioController,
+            CategoriaController categoriaController
         )
         {
             try
@@ -54,15 +55,14 @@ namespace Locadora.View.Locacoes
                     Console.WriteLine("======= ADICIONE O VEÍCULO =======");
                     Console.Write("Digite a placa do veículo: ");
                     var placa = Console.ReadLine();
-                    var veiculoId = veiculoController.BuscarVeiculoPlaca(placa).VeiculoID;
+                    var veiculo = veiculoController.BuscarVeiculoPlaca(placa);
                     
+                    var veiculoId = veiculo.VeiculoID;
+                    var valorDiaria = categoriaController.BuscarDiariaCategoriaPorId(veiculo.CategoriaID);
 
                     Console.Clear();
                     Console.WriteLine("======= DADOS DA LOCAÇÃO =======");
-                    Console.WriteLine("Digite o valor da diária da locação");
-                    var valorDiaria = decimal.Parse(Console.ReadLine());
-                    Console.Write("\nDigite o número de dias de locação: ");
-                    var dias = int.Parse(Console.ReadLine());
+                    var dias = Helpers.LerInteiro("Digite o número de dias de locação: ");
 
                     var locacao = new Locacao(
                         clienteId,

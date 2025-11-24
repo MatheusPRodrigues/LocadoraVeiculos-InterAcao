@@ -32,8 +32,7 @@ namespace Locadora.View.Categorias
                     Console.Write("\nDigite a nova descrição da categoria: ");
                     var descricaoCategoria = Console.ReadLine();
 
-                    Console.Write("\nDigite o novo valor da diária: ");
-                    var valorDiaria = decimal.Parse(Console.ReadLine());
+                    var valorDiaria = Helpers.LerDecimal("Digite o novo valor da diária:");
 
                     var categoria = new Categoria(
                         nomeCategoria,

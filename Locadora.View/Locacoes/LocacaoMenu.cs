@@ -38,7 +38,12 @@ namespace Locadora.View.Locacoes
                 {
                     case "1":
                         var add = new AdicionarLocacao();
-                        add.FormAddLocacao(locacaoController, new ClienteController(), new VeiculoController(), funcionarioController);
+                        add.FormAddLocacao(locacaoController,
+                            new ClienteController(),
+                            new VeiculoController(),
+                            funcionarioController,
+                            new CategoriaController()
+                        );
                         break;
                     case "2":
                         var listar = new ListarLocacoes();
