@@ -56,14 +56,13 @@ namespace Locadora.View.Clientes
 
                     var tipoDocumento = SelecionarDocumento();
 
-                    Console.WriteLine("\nDigite o novo número de documento do cliente:");
-                    var numeroDocumento = Console.ReadLine();
+                    var numeroDocumento = Helpers.SolicitarNumeroDocumento("CPF");
 
-                    Console.WriteLine("\nDigite a data de emissão do documento:");
-                    var dataEmissao = DateOnly.Parse(Console.ReadLine());
+                    Console.Clear();
+                    var dataEmissao = Helpers.LerData("Data de Emissão (dd/mm/aaaa): ");
 
-                    Console.WriteLine("\nDigite a data de validade do documento:");
-                    var dataValidade = DateOnly.Parse(Console.ReadLine());
+                    Console.Clear();
+                    var dataValidade = Helpers.LerData("Data de Validade (dd/mm/aaaa): ");
 
                     var documento = new Documento(
                         tipoDocumento,

@@ -62,8 +62,7 @@ namespace Locadora.View.Locacoes
 
                     Console.Clear();
                     Console.WriteLine("======= DADOS DA LOCAÇÃO =======");
-                    Console.Write("\nDigite o número de dias de locação: ");
-                    var dias = int.Parse(Console.ReadLine());
+                    var dias = Helpers.LerInteiro("Digite o número de dias de locação: ");
 
                     var locacao = new Locacao(
                         clienteId,
